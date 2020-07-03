@@ -101,21 +101,24 @@ let player = {
 };
 let guess;
 const randomNumber = Math.round(Math.random() * 40 + 10);
+console.log(randomNumber);
 
 guessTheNumber  = () => {
 for (let i = player.lives; i > 0; i --){
   guess = parseInt(prompt("Guess a number between 10 and 50."));
  if(guess === randomNumber){
    alert('Congrats!');
+   return 'Congrats';
    break;
 } else if (guess !== randomNumber) {
   player.lives -= 1
   player.fail_numbers.push(guess)
   alert('Try Again!');
   console.log(player);}
-  //else if (player.lives == 0) {
-  //alert('You lost the game.');
-  // }
+  if (player.lives == 0) {
+  alert('You lost the game.');
+  return 'You lost the game.';
+   }
 } 
 }
 
@@ -124,16 +127,14 @@ const answer3 = guessTheNumber()
 const htmlTarget3 = document.getElementById('a-3')
 htmlTarget3.innerHTML = answer3
 
-
 //------------------------ Question 4 ---------------------------
 // In the function below we are giving you an array of objects, each one with the same properties. Ask to the user for 3 diferentes options to sorting the array from the highest to lowest. In the case of a string, the criteria to sort must be the length of the string. The first one is sorting the array of objects based on the title property.
 // The second one sorting the array of objects based on the author property, the third one based on the library property. finally, the return value has to be the string sorted of the property selected separeted with a semicolon. Remember you have to sort all of the array based on the selected property
 //example: if the user select sorting by title the return value must be: "Mockingjay: The Final Book of The Hunger Games; Walter Isaacson; The Road Ahead"
 
-/* Doesn't work
 
 let sortedLibrary = [];
-let searchBy = prompt("You can sort it by 'title', 'author' and 'libraryID'. How do you want to sort it?");
+let searchBy;
 
 sort = (searchBy) => {
 
@@ -153,21 +154,27 @@ sort = (searchBy) => {
        author: 'Suzanne Collins',
        libraryID: 3245
    }];
-
-   for (let i = 0; i < library.length; i ++){
+   
+    searchBy = prompt("You can sort it by 'title', 'author' and 'libraryID'. How do you want to sort it?").toLowerCase();
+   
+    for (let i = 0; i < library.length; i ++){
     if (searchBy === 'title'){
-      return sortedLibrary.push(library[i][0]);
+      sortedLibrary.push(library[i]['title']);
+      sortedLibrary.sort((a, b) => b.length - a.length);
     } else if (searchBy === 'author') {
-      return sortedLibrary.push(library[i][1]);
+      sortedLibrary.push(library[i]['author']);
+      sortedLibrary.sort((a, b) => b.length - a.length);
     } else if (searchBy === 'libraryID') {
-      return sortedLibrary.push(library[i][2]);
-    } else {alert('Try again!');
-  }
+      sortedLibrary.push(library[i]['libraryID']);
+      sortedLibrary.sort((a, b) => b.length - a.length);
+    } 
    }  
+   if(searchBy !== 'title' & searchBy !== 'author' & searchBy !== 'libraryid') 
+    {alert('Type in a valid criteria!');
+  }
+  return sortedLibrary.join('; ');
 }
 const answer4 = sort(searchBy)
 
 const htmlTarget4 = document.getElementById('a-4')
 htmlTarget4.innerHTML = answer4
-
-*/
